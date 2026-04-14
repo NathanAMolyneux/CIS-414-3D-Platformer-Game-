@@ -6,27 +6,14 @@ using static NMShipType;
 
 public class NMShipFactory : MonoBehaviour
 {
-    [SerializeField] private NMBaseShip NMFastShip;
-    [SerializeField] private NMBaseShip NMSlowShip;
-    [SerializeField] private NMBaseShip NMLaserShip;
+ 
+    [SerializeField] private NMBaseShip[] fastShips;
+    [SerializeField] private NMBaseShip[] slowShips;
+    [SerializeField] private NMBaseShip[] laserShips;
+
     public NMBaseShip CreateShip(ShipType type, Vector3 spawnPosition, Transform target)
     {
-        NMBaseShip prefabToSpawn = null;
-
-        switch (type)
-        {
-            case ShipType.Fast:
-                prefabToSpawn = NMFastShip;
-                break;
-
-            case ShipType.Slow:
-                prefabToSpawn = NMSlowShip;
-                break;
-
-            case ShipType.Laser:
-                prefabToSpawn = NMLaserShip;
-                break;
-        }
+        NMBaseShip prefabToSpawn = GetRandomPrefabByType(type);
 
         if (prefabToSpawn == null)
         {
@@ -37,5 +24,33 @@ public class NMShipFactory : MonoBehaviour
         NMBaseShip newShip = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
         newShip.SetTarget(target);
         return newShip;
+    }
+
+    private NMBaseShip GetRandomPrefabByType(ShipType type)
+    {
+        NMBaseShip[] selectedArray = null;
+
+        switch (type)
+        {
+            case ShipType.Fast:
+                selectedArray = fastShips;
+                break;
+
+            case ShipType.Slow:
+                selectedArray = slowShips;
+                break;
+
+            case ShipType.Laser:
+                selectedArray = laserShips;
+                break;
+        }
+
+        if (selectedArray == null || selectedArray.Length == 0)
+        {
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, selectedArray.Length);
+        return selectedArray[randomIndex];
     }
 }

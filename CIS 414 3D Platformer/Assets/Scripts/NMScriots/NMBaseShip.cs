@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class NMBaseShip : MonoBehaviour
 {
-    [SerializeField] protected float moveSpeed = 5f;
+    [SerializeField] public float moveSpeed = 5f;
 
     protected Transform target;
 
@@ -32,7 +32,7 @@ public abstract class NMBaseShip : MonoBehaviour
     {
         if (direction != Vector3.zero)
         {
-            transform.right = direction;
+            transform.forward = direction;
         }
     }
 }

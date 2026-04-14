@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class NMFastShip : NMBaseShip
 {
+    public void Awake()
+    {
+        moveSpeed = 30f;
+    }
 }
