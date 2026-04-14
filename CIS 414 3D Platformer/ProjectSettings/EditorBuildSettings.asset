@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SP-LockedLevel.unity
+    guid: 90c7e9f5525c36043ab6b2d13678bff6
+  - enabled: 1
+    path: Assets/Scenes/ALScene.unity
+    guid: eb583cfac6a472c498c83f14b6c7903d
   m_configObjects: {}
