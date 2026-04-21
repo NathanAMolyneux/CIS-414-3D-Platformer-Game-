@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-
 public class NMFirstPersonController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 8f;
+
+    [Header("Jump")]
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float highJumpForce = 9f;
 
     [Header("Mouse Look")]
     [SerializeField] private float mouseSensitivity = 2f;
@@ -28,9 +31,28 @@ public class NMFirstPersonController : MonoBehaviour
     private float moveInputX;
     private float moveInputZ;
 
+    private NMIMovementStrategy currentMovementStrategy;
+    private NMIJumpStrategy currentJumpStrategy;
+
+    private NMIMovementStrategy normalMovementStrategy;
+    private NMIMovementStrategy sprintMovementStrategy;
+
+    private NMIJumpStrategy normalJumpStrategy;
+    private NMIJumpStrategy highJumpStrategy;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        normalMovementStrategy = new NMNormalMovementStrategy(moveSpeed);
+        sprintMovementStrategy = new NMFastMovementStrategy(sprintSpeed);
+
+        normalJumpStrategy = new NMNormalJumpStrategy(jumpForce);
+        highJumpStrategy = new NMSuperJumpStrategy(highJumpForce);
+
+        currentMovementStrategy = normalMovementStrategy;
+        currentJumpStrategy = normalJumpStrategy;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -41,6 +63,7 @@ public class NMFirstPersonController : MonoBehaviour
         HandleInput();
         HandleMouseLook();
         CheckGround();
+        UpdateMovementStrategy();
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -59,8 +82,6 @@ public class NMFirstPersonController : MonoBehaviour
         {
             Move();
         }
-
-        rb.angularVelocity = Vector3.zero;
     }
 
     private void HandleInput()
@@ -69,12 +90,26 @@ public class NMFirstPersonController : MonoBehaviour
         moveInputZ = Input.GetAxis("Vertical");
     }
 
+    private void UpdateMovementStrategy()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            currentMovementStrategy = sprintMovementStrategy;
+        }
+        else
+        {
+            currentMovementStrategy = normalMovementStrategy;
+        }
+    }
+
     private void Move()
     {
         Vector3 moveDirection = (transform.forward * moveInputZ + transform.right * moveInputX).normalized;
 
-        Vector3 newVelocity = moveDirection * moveSpeed;
-        newVelocity.y = rb.velocity.y; // keep gravity/jump
+        float currentSpeed = currentMovementStrategy.GetMoveSpeed();
+
+        Vector3 newVelocity = moveDirection * currentSpeed;
+        newVelocity.y = rb.velocity.y;
 
         rb.velocity = newVelocity;
     }
@@ -82,8 +117,7 @@ public class NMFirstPersonController : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
- 
+        rb.AddForce(Vector3.up * currentJumpStrategy.GetJumpForce(), ForceMode.Impulse);
     }
 
     private void HandleMouseLook()
@@ -105,5 +139,37 @@ public class NMFirstPersonController : MonoBehaviour
     private void CheckGround()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+    }
+
+    public void SetNormalJump()
+    {
+        currentJumpStrategy = normalJumpStrategy;
+    }
+
+    public void SetHighJump()
+    {
+        currentJumpStrategy = highJumpStrategy;
+    }
+
+    private Coroutine jumpPowerupCoroutine;
+
+    public void ActivateSuperJump(float duration)
+    {
+        if (jumpPowerupCoroutine != null)
+        {
+            StopCoroutine(jumpPowerupCoroutine);
+        }
+
+        jumpPowerupCoroutine = StartCoroutine(SuperJumpRoutine(duration));
+    }
+
+    private IEnumerator SuperJumpRoutine(float duration)
+    {
+        currentJumpStrategy = highJumpStrategy;
+
+        yield return new WaitForSeconds(duration);
+
+        currentJumpStrategy = normalJumpStrategy;
+        jumpPowerupCoroutine = null;
     }
 }
