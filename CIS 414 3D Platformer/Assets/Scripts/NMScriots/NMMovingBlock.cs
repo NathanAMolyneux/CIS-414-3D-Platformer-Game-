@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+
 
 public class NMMovingBlock : MonoBehaviour
 {
-    //make a moving platform 
-    // Start is called before the first frame update
-        public Transform pointA;
-        public Transform pointB;
-       
-         [SerializeField]private float speed = 0.2f;
+    public Transform pointA;
+    public Transform pointB;
 
+    [SerializeField] public float speed = 0.2f;
 
-    // Update is called once per frame
+    [HideInInspector] public float moveProgress = 0f;
+
+    private NMIBlockState currentState;
+
+    void Start()
+    {
+        SetState(new NMIdleState());
+        UpdatePosition();
+    }
+
     void Update()
     {
-        transform.position = Vector3.Lerp(pointA.position, pointB.position, Mathf.PingPong(Time.time * speed, 1));
+        currentState.Update(this);
+    }
+
+    public void SetState(NMIBlockState newState)
+    {
+        currentState = newState;
+        currentState.Enter(this);
+    }
+
+    public void UpdatePosition()
+    {
+        transform.position = Vector3.Lerp(pointA.position, pointB.position, moveProgress);
     }
 }
