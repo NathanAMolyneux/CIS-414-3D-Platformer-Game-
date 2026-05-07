@@ -23,7 +23,11 @@ public class TunnelRepairConsole : MonoBehaviour
             {
                 repairCommand.Execute();
             }
-
+            MissionManager missionManager = FindObjectOfType<MissionManager>();
+            if (missionManager != null)
+            {
+                missionManager.SetMissionStep(4);
+            }
             Debug.Log("Console repaired with Command Pattern.");
             gameObject.SetActive(false);
         }

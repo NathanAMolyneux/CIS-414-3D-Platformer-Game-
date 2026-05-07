@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class TunnelPuzzleManager : MonoBehaviour
 {
     [SerializeField] private NodeFactory nodeFactory;
@@ -12,6 +11,9 @@ public class TunnelPuzzleManager : MonoBehaviour
     [SerializeField] private GameObject node2;
     [SerializeField] private GameObject node3;
 
+    public bool PuzzleCompleted = false;
+    public int requiredNodes = 2;
+    private int fixedNodes = 0;
     private void Start()
     {
         if (nodeFactory == null)
@@ -26,4 +28,5 @@ public class TunnelPuzzleManager : MonoBehaviour
 
         Debug.Log("Tunnel puzzle nodes created by Factory.");
     }
+
 }

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 using TMPro;
+using UnityEngine;
 using ALScripts.Data;
 
 namespace ALScripts.UI
@@ -27,12 +24,14 @@ namespace ALScripts.UI
         {
             if (shipConditionText != null)
             {
-                shipConditionText.text = $"Ship Condition: {ShipStatus.Instance.ShipCondition:0}%";
+                shipConditionText.text =
+                    $"SHIP CONDITION: {ShipStatus.Instance.ShipCondition:0}%";
             }
 
             if (shipSpeedText != null)
             {
-                shipSpeedText.text = $"Speed: {ShipStatus.Instance.ShipSpeed:0.0} km/s";
+                shipSpeedText.text =
+                    $"SHIP SPEED: {ShipStatus.Instance.ShipSpeed:0.0} km/s";
             }
         }
     }

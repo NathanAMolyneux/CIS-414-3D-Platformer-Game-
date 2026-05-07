@@ -1,3 +1,4 @@
+using ALScripts.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class OxygenPanel : MonoBehaviour, IShipVisitable
 
             rend.material.EnableKeyword("_EMISSION");
             rend.material.SetColor("_EmissionColor", Color.green * 2f);
+            ShipStatus.Instance.RegisterRepair();
         }
 
         if (GameMediator.Instance != null)
