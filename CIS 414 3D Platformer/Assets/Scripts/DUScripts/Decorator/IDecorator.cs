@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDecorator
 {
-    int getClearance();
+    public string upClearance();
 }

@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (collider.gameObject == TriggerObject)
         {
-            Debug.Log("You Got Level One Clearance!");
+            Debug.Log("You Got Level Two Clearance!");
 
         }
 
