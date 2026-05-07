@@ -30,7 +30,7 @@ public class TunnelPuzzleProgress : MonoBehaviour
 
         correctNodesActivated++;
 
-        Debug.Log("Correct nodes activated: " + correctNodesActivated);
+        Debug.Log("Correct nodes activated: " + correctNodesActivated + "/" + requiredCorrectNodes);
 
         if (correctNodesActivated >= requiredCorrectNodes)
         {
@@ -40,6 +40,17 @@ public class TunnelPuzzleProgress : MonoBehaviour
             if (unlockCommand != null)
             {
                 unlockCommand.Execute();
+            }
+
+            // MissionManager missionManager = FindObjectOfType<MissionManager>();
+            //if (missionManager != null)
+            // {
+            //     missionManager.SetMissionStep(1);
+            // } 
+            GameFacade facade = FindObjectOfType<GameFacade>();
+            if (facade != null)
+            {
+                facade.RepairCompleted();
             }
         }
     }

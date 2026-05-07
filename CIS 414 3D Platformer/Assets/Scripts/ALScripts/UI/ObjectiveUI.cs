@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using ALScripts.Data;
@@ -13,28 +11,49 @@ namespace ALScripts.UI
 
         private void OnEnable()
         {
-            ShipStatus.Instance.OnStatusChanged += UpdateUI;
-            UpdateUI();
+            if (ShipStatus.Instance != null)
+            {
+                ShipStatus.Instance.OnStatusChanged += UpdateUI;
+                UpdateUI();
+            }
         }
 
         private void OnDisable()
         {
-            ShipStatus.Instance.OnStatusChanged -= UpdateUI;
+            if (ShipStatus.Instance != null)
+                ShipStatus.Instance.OnStatusChanged -= UpdateUI;
         }
 
         private void UpdateUI()
         {
+            int repaired = ShipStatus.Instance.RepairedBreaches;
+            int total = ShipStatus.Instance.TotalBreaches;
+
             if (objectiveText != null)
             {
-                objectiveText.text =
-                    $"Breaches Fixed: {ShipStatus.Instance.RepairedBreaches}/{ShipStatus.Instance.TotalBreaches}";
+                if (repaired == 0)
+                {
+                    objectiveText.text = "Task: Restore Navigation Console";
+                }
+                else if (repaired == 1)
+                {
+                    objectiveText.text = "Task: Stabilize Power Panel";
+                }
+                else if (repaired == 2)
+                {
+                    objectiveText.text = "Task: Repair Oxygen System";
+                }
+                else
+                {
+                    objectiveText.text = "Task Return to Control Room";
+                }
             }
 
             if (statusText != null)
             {
-                if (ShipStatus.Instance.RepairedBreaches < ShipStatus.Instance.TotalBreaches)
+                if (repaired < total)
                 {
-                    statusText.text = "Status: Emergency repair in progress";
+                    statusText.text = $"Systems repaired: {repaired}/{total}";
                 }
                 else
                 {

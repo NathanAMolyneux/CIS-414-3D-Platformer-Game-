@@ -1,37 +1,40 @@
-using ALScripts.State;
 using UnityEngine;
+using ALScripts.State;
 
-public class GameManager : MonoBehaviour
+namespace ALScripts.Core
 {
-    public static GameManager Instance { get; private set; }
-
-    private IGameState currentState;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public static GameManager Instance { get; private set; }
+
+        private IGameState currentState;
+
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
         }
 
-        Instance = this;
-    }
+        private void Start()
+        {
+            SetState(new IntroState());
+        }
 
-    private void Start()
-    {
-        SetState(new IntroState());
-    }
+        private void Update()
+        {
+            currentState?.Update();
+        }
 
-    private void Update()
-    {
-        currentState?.Update();
-    }
-
-    public void SetState(IGameState newState)
-    {
-        currentState?.Exit();
-        currentState = newState;
-        currentState?.Enter();
+        public void SetState(IGameState newState)
+        {
+            currentState?.Exit();
+            currentState = newState;
+            currentState.Enter();
+        }
     }
 }

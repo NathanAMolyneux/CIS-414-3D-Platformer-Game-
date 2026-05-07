@@ -1,3 +1,4 @@
+using ALScripts.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class PowerPanel : MonoBehaviour, IShipVisitable
         if (rend != null)
         {
             rend.material.color = Color.green;
+            ShipStatus.Instance.RegisterRepair();
         }
 
         if (GameMediator.Instance != null)

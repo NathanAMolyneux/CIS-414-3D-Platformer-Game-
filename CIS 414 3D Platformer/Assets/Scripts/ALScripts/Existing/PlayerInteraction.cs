@@ -7,10 +7,12 @@ namespace ALScripts.Existing
     {
         [SerializeField] private Transform cameraHolder;
         [SerializeField] private float interactDistance = 5f;
+        [SerializeField] private PuzzleMessageUI puzzleUI;
 
         private Camera playerCamera;
         private bool canRepair = false;
         private RepairVisitor repairVisitor = new RepairVisitor();
+        private PlayerInventory inventory;
 
         private void Start()
         {
@@ -28,17 +30,27 @@ namespace ALScripts.Existing
             {
                 Debug.LogWarning("PlayerInteraction: No camera found.");
             }
+
+            inventory = GetComponent<PlayerInventory>();
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+              
+                if (TryEnergyCoreInteraction())
+                {
+                    return;
+                }
+
+               
                 if (TryInteractWithVisitorObject())
                 {
                     return;
                 }
 
+                
                 if (canRepair)
                 {
                     Debug.Log("Repair triggered");
@@ -47,6 +59,7 @@ namespace ALScripts.Existing
                     return;
                 }
 
+                
                 TryInteractWithDoor();
             }
         }
@@ -114,6 +127,57 @@ namespace ALScripts.Existing
             {
                 Debug.Log("Raycast hit nothing.");
             }
+        }
+
+        private bool TryEnergyCoreInteraction()
+        {
+            if (playerCamera == null) return false;
+
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+            Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * interactDistance, Color.yellow, 1f);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
+            {
+                Debug.Log("Ray hit: " + hit.collider.name);
+
+                // 🔹 PICKUP CORE
+                if (hit.collider.CompareTag("EnergyCore"))
+                {
+                    inventory.hasEnergyCore = true;
+                    hit.collider.gameObject.SetActive(false);
+
+                    if (puzzleUI != null)
+                    {
+                        puzzleUI.ShowMessage("Energy core acquired. Return to the slot.");
+                    }
+                    MissionManager missionManager = FindObjectOfType<MissionManager>();
+                    //if (missionManager != null)
+                    //{
+                    //    missionManager.SetMissionStep(2);
+                    //}
+                    GameFacade facade = FindObjectOfType<GameFacade>();
+                    if (facade != null)
+                    {
+                        facade.EnergyCorePicked();
+                    }
+                    Debug.Log("Picked up energy core.");
+                    return true;
+                }
+
+                // 🔹 PLACE CORE
+                EnergyCoreSlot slot = hit.collider.GetComponent<EnergyCoreSlot>();
+
+                if (slot == null)
+                    slot = hit.collider.GetComponentInParent<EnergyCoreSlot>();
+
+                if (slot != null)
+                {
+                    slot.TryPlaceCore(inventory);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void OnTriggerEnter(Collider other)

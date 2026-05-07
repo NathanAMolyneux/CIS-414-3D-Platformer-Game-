@@ -23,6 +23,12 @@ public class PowerNode : BaseNode
         activated = true;
 
         Debug.Log("Correct node activated!");
+        MissionManager missionManager = FindObjectOfType<MissionManager>();
+
+        //if (missionManager != null)
+        //{
+        //    missionManager.SetMissionStep(1);
+        //}
 
         Renderer rend = GetComponentInChildren<Renderer>();
         if (rend != null)

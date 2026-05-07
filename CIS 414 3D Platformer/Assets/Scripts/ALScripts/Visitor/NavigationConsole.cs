@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using ALScripts.Data;
+using ALScripts.UI;
 using UnityEngine;
 
 public class NavigationConsole : MonoBehaviour, IShipVisitable
@@ -26,12 +26,18 @@ public class NavigationConsole : MonoBehaviour, IShipVisitable
 
         Debug.Log("Navigation restored.");
 
+        // Update repair progress no matter what
+        ShipStatus.Instance.RegisterRepair();
+
+        // Visual feedback
         if (rend != null)
         {
-            rend.material.color = Color.green;
+            //Color repairedColor = new Color(0f, 0.8f, 1f); // cyan/blue instead of ugly green
+            Color repairedColor = new Color(0f, 0.8f, 1f, 0.3f); // alpha = 0.3 (soft)
 
+            rend.material.color = repairedColor;
             rend.material.EnableKeyword("_EMISSION");
-            rend.material.SetColor("_EmissionColor", Color.green * 2f);
+            rend.material.SetColor("_EmissionColor", repairedColor * 1.5f);
         }
 
         if (GameMediator.Instance != null)
