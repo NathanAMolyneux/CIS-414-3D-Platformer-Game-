@@ -7,7 +7,7 @@ public class MainMenuUI : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("ALScene");
+        SceneManager.LoadScene("HubWorld");
     }
 
     public void ExitGame()
