@@ -4454,6 +4454,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 3b73c95214dfc4876a164f473ce71277, type: 2}
+    - target: {fileID: 10812626, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}
+      propertyPath: m_Range
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812626, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812626, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812626, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}
+      propertyPath: m_Intensity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812626, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}
+      propertyPath: m_Lightmapping
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 137536, guid: a6899fb2bdf074b849737fb13a5b2863, type: 3}

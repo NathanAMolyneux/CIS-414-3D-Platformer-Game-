@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/HubWorld.unity
     guid: 5937579fb5912464091f28f7d576a7ac
   - enabled: 1
+    path: Assets/Scenes/DUScene.unity
+    guid: b6d99adffdaf5eb438db1c5576f04b88
+  - enabled: 1
     path: Assets/Scenes/SP-LockedLevel.unity
     guid: 90c7e9f5525c36043ab6b2d13678bff6
   - enabled: 1
