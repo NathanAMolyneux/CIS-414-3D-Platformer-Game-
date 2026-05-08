@@ -140,7 +140,7 @@ namespace ALScripts.Existing
             {
                 Debug.Log("Ray hit: " + hit.collider.name);
 
-                // 🔹 PICKUP CORE
+                // for pciking up core objec
                 if (hit.collider.CompareTag("EnergyCore"))
                 {
                     inventory.hasEnergyCore = true;
@@ -164,7 +164,7 @@ namespace ALScripts.Existing
                     return true;
                 }
 
-                // 🔹 PLACE CORE
+                //for placing core in slot
                 EnergyCoreSlot slot = hit.collider.GetComponent<EnergyCoreSlot>();
 
                 if (slot == null)

@@ -26,7 +26,7 @@ public class PowerPanel : MonoBehaviour, IShipVisitable
 
         Debug.Log("Power restored.");
 
-        // 🔥 change color
+       
         if (rend != null)
         {
             rend.material.color = Color.green;

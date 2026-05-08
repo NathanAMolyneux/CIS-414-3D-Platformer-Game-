@@ -29,11 +29,11 @@ public class NavigationConsole : MonoBehaviour, IShipVisitable
         // Update repair progress no matter what
         ShipStatus.Instance.RegisterRepair();
 
-        // Visual feedback
+       
         if (rend != null)
         {
-            //Color repairedColor = new Color(0f, 0.8f, 1f); // cyan/blue instead of ugly green
-            Color repairedColor = new Color(0f, 0.8f, 1f, 0.3f); // alpha = 0.3 (soft)
+           
+            Color repairedColor = new Color(0f, 0.8f, 1f, 0.3f); 
 
             rend.material.color = repairedColor;
             rend.material.EnableKeyword("_EMISSION");
