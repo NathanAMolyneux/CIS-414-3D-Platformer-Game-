@@ -23,7 +23,7 @@ public class EnergyCoreSlot : MonoBehaviour
             return;
         }
 
-        // ❌ Player does NOT have core
+        
         if (!inventory.hasEnergyCore)
         {
             if (puzzleUI != null)
@@ -31,7 +31,7 @@ public class EnergyCoreSlot : MonoBehaviour
             return;
         }
 
-        // ✅ Player HAS core → solve puzzle
+        
         solved = true;
         inventory.hasEnergyCore = false;
 
@@ -39,15 +39,6 @@ public class EnergyCoreSlot : MonoBehaviour
 
         if (puzzleUI != null)
             puzzleUI.ShowMessage("Energy core installed. System restored!");
-
-
-        // 🔥 ADD THIS
-        //MissionManager missionManager = FindObjectOfType<MissionManager>();
-        //if (missionManager != null)
-        //{
-        //    //missionManager.SetMissionStep(3);
-        //    FindObjectOfType<GameFacade>().EnergyCoreInserted();
-        //}
 
         GameFacade facade = FindObjectOfType<GameFacade>();
 

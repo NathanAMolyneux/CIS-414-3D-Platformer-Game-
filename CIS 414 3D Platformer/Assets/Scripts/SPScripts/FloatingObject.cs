@@ -15,20 +15,20 @@ public class FloatingObject: MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // important
+        rb.useGravity = false; 
     }
 
     private void FixedUpdate()
     {
         if (!floatingActive) return;
 
-        // gentle upward force
+        // putting the upward force
         if (rb.velocity.y < maxVelocity)
         {
             rb.AddForce(Vector3.up * floatForce, ForceMode.Acceleration);
         }
 
-        // slight random drift
+        //  making a slight random drift
         Vector3 drift = new Vector3(
             Mathf.Sin(Time.time) * swayForce,
             0f,

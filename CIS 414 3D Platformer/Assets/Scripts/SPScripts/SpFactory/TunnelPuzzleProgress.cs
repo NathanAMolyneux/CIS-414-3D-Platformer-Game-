@@ -42,11 +42,6 @@ public class TunnelPuzzleProgress : MonoBehaviour
                 unlockCommand.Execute();
             }
 
-            // MissionManager missionManager = FindObjectOfType<MissionManager>();
-            //if (missionManager != null)
-            // {
-            //     missionManager.SetMissionStep(1);
-            // } 
             GameFacade facade = FindObjectOfType<GameFacade>();
             if (facade != null)
             {
