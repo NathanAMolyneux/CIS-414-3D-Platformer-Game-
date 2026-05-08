@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BaseClearance : IDecorator
 {
+    
+    
     public string upClearance()
     {
-        return "Clearance Level:";
+        return "Base Clearance";
     }
 }

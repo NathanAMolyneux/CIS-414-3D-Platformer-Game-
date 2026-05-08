@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Intercom : Interactable
+
+public class HangarDoor : Interactable
 {
-    public ParkourMovement parkourMovement;
+
+
 
     protected override void Interact()
     {
-        parkourMovement.MoveParkour();
+        SceneManager.LoadScene("HubWorld");
         Debug.Log("Interacted with " + gameObject.name);
     }
 }

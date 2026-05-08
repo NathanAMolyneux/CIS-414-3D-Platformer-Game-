@@ -11,6 +11,6 @@ public class ClearanceLevelOne : ClearanceDecorator
 
     public override string upClearance()
     {
-        return base.upClearance() + "One";
+        return base.upClearance() + " + Clearance Level One";
     }
 }
